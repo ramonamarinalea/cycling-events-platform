@@ -1,0 +1,195 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  name          String?
+  password      String?
+  image         String?
+  emailVerified DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  
+  // Relations
+  accounts      Account[]
+  sessions      Session[]
+  events        Event[]       @relation("UserEvents")
+  savedEvents   Event[]       @relation("SavedEvents")
+  reviews       Review[]
+  organizer     Organizer?
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Organizer {
+  id          String   @id @default(cuid())
+  userId      String   @unique
+  companyName String
+  website     String?
+  description String?  @db.Text
+  verified    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  // Relations
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  events      Event[]
+}
+
+model Event {
+  id          String   @id @default(cuid())
+  title       String
+  slug        String   @unique
+  description String   @db.Text
+  
+  // Event Type
+  type        EventType
+  
+  // Location
+  country     String
+  region      String?
+  city        String?
+  venue       String?
+  latitude    Float?
+  longitude   Float?
+  
+  // Dates
+  startDate   DateTime
+  endDate     DateTime
+  duration    Int      // in days
+  
+  // Pricing
+  priceMin    Float?
+  priceMax    Float?
+  currency    String   @default("EUR")
+  
+  // Details
+  difficulty  Difficulty
+  terrain     Terrain[]
+  distance    Float?   // total distance in km
+  elevation   Float?   // total elevation in meters
+  
+  // Capacity
+  maxParticipants Int?
+  currentBookings Int     @default(0)
+  
+  // URLs
+  bookingUrl  String?
+  websiteUrl  String?
+  
+  // Features
+  amenities   String[]
+  included    String[]
+  notIncluded String[]
+  languages   String[]
+  
+  // Images
+  coverImage  String?
+  images      String[]
+  
+  // Meta
+  source      EventSource @default(USER)
+  sourceUrl   String?     // Original URL if scraped
+  verified    Boolean     @default(false)
+  featured    Boolean     @default(false)
+  published   Boolean     @default(false)
+  views       Int         @default(0)
+  
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  
+  // Relations
+  userId      String?
+  organizerId String?
+  user        User?       @relation("UserEvents", fields: [userId], references: [id], onDelete: SetNull)
+  organizer   Organizer?  @relation(fields: [organizerId], references: [id], onDelete: SetNull)
+  savedBy     User[]      @relation("SavedEvents")
+  reviews     Review[]
+  
+  @@index([startDate, endDate])
+  @@index([country, region])
+  @@index([type, difficulty, terrain])
+  @@index([published, verified])
+}
+
+model Review {
+  id        String   @id @default(cuid())
+  rating    Int      // 1-5
+  title     String
+  comment   String   @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  // Relations
+  userId    String
+  eventId   String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  event     Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  
+  @@unique([userId, eventId])
+}
+
+// Enums
+enum EventType {
+  TRAINING_CAMP
+  CYCLING_HOLIDAY
+  WEEKEND_GETAWAY
+  TOUR
+  EXPEDITION
+}
+
+enum Difficulty {
+  BEGINNER
+  INTERMEDIATE
+  ADVANCED
+  EXPERT
+}
+
+enum Terrain {
+  ROAD
+  GRAVEL
+  MOUNTAIN
+  MIXED
+}
+
+enum EventSource {
+  USER
+  API
+  SCRAPED
+  PARTNER
+}
