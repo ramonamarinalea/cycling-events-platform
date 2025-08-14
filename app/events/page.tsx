@@ -306,19 +306,13 @@ export default function EventsPage() {
           <div>
             <h2 className="text-2xl font-bold mb-6 text-gray-600">Past Events</h2>
             {loadingPast ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                 {[...Array(4)].map((_, i) => (
-                  <div key={i} className="bg-white rounded-lg shadow-md h-96 animate-pulse">
-                    <div className="h-48 bg-gray-200"></div>
-                    <div className="p-4">
-                      <div className="h-4 bg-gray-200 rounded mb-2"></div>
-                      <div className="h-4 bg-gray-200 rounded w-3/4"></div>
-                    </div>
-                  </div>
+                  <div key={i} className="bg-gray-50 rounded-lg border border-gray-200 h-16 animate-pulse"></div>
                 ))}
               </div>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                 {pastEvents.map((event) => (
                   <PastEventCard key={event.id} event={event} />
                 ))}
