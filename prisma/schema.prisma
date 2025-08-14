@@ -6,9 +6,8 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
-  relationMode = "prisma"
 }
 
 model User {
@@ -45,8 +44,6 @@ model Account {
   session_state     String?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-  
-  @@index([userId])
 
   @@unique([provider, providerAccountId])
 }
@@ -57,8 +54,6 @@ model Session {
   userId       String
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  
-  @@index([userId])
 }
 
 model Organizer {
@@ -74,8 +69,6 @@ model Organizer {
   // Relations
   user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   events      Event[]
-  
-  @@index([userId])
 }
 
 model Event {
@@ -148,11 +141,9 @@ model Event {
   savedBy     User[]      @relation("SavedEvents")
   reviews     Review[]
   
-  @@index([userId])
-  @@index([organizerId])
   @@index([startDate, endDate])
   @@index([country, region])
-  @@index([type, difficulty])
+  @@index([type, difficulty, terrain])
   @@index([published, verified])
 }
 
@@ -170,8 +161,6 @@ model Review {
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   event     Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
   
-  @@index([userId])
-  @@index([eventId])
   @@unique([userId, eventId])
 }
 
