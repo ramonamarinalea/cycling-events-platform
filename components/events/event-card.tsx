@@ -147,10 +147,19 @@ export function EventCard({ event }: EventCardProps) {
           </div>
         )}
 
-        {/* Action Button */}
-        <Button asChild className="w-full">
-          <Link href={`/events/${event.slug}`}>View Details</Link>
-        </Button>
+        {/* Action Buttons */}
+        <div className="flex gap-2">
+          <Button asChild variant="outline" className="flex-1">
+            <Link href={`/events/${event.slug}`}>View Details</Link>
+          </Button>
+          {event.bookingUrl && (
+            <Button asChild className="flex-1">
+              <a href={event.bookingUrl} target="_blank" rel="noopener noreferrer">
+                Book Now
+              </a>
+            </Button>
+          )}
+        </div>
       </div>
     </div>
   )
