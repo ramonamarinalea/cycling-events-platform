@@ -69,6 +69,9 @@ export async function GET(req: NextRequest) {
     // Build filters
     const where: any = {
       published: true, // Only show published events
+      startDate: {
+        gte: new Date(), // Only show future events
+      },
     }
 
     // Type filter
