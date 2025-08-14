@@ -6,7 +6,7 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "sqlite"
   url      = env("DATABASE_URL")
 }
 
@@ -35,12 +35,12 @@ model Account {
   type              String
   provider          String
   providerAccountId String
-  refresh_token     String? @db.Text
-  access_token      String? @db.Text
+  refresh_token     String?
+  access_token      String?
   expires_at        Int?
   token_type        String?
   scope             String?
-  id_token          String? @db.Text
+  id_token          String?
   session_state     String?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -61,7 +61,7 @@ model Organizer {
   userId      String   @unique
   companyName String
   website     String?
-  description String?  @db.Text
+  description String?
   verified    Boolean  @default(false)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
@@ -75,7 +75,7 @@ model Event {
   id          String   @id @default(cuid())
   title       String
   slug        String   @unique
-  description String   @db.Text
+  description String
   
   // Event Type
   type        EventType
@@ -100,7 +100,7 @@ model Event {
   
   // Details
   difficulty  Difficulty
-  terrain     Terrain[]
+  terrain     String // JSON array of Terrain types
   distance    Float?   // total distance in km
   elevation   Float?   // total elevation in meters
   
@@ -113,14 +113,14 @@ model Event {
   websiteUrl  String?
   
   // Features
-  amenities   String[]
-  included    String[]
-  notIncluded String[]
-  languages   String[]
+  amenities   String // JSON array
+  included    String // JSON array  
+  notIncluded String // JSON array
+  languages   String // JSON array
   
   // Images
   coverImage  String?
-  images      String[]
+  images      String // JSON array
   
   // Meta
   source      EventSource @default(USER)
@@ -151,7 +151,7 @@ model Review {
   id        String   @id @default(cuid())
   rating    Int      // 1-5
   title     String
-  comment   String   @db.Text
+  comment   String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   
