@@ -1,0 +1,411 @@
+import { NextRequest, NextResponse } from "next/server"
+import { prisma } from "@/lib/prisma"
+
+export async function GET(req: NextRequest) {
+  try {
+    console.log('🌱 Starting Swiss cycling events seed...')
+
+    // Check if events already exist
+    const existingEvents = await prisma.event.count()
+    if (existingEvents > 0) {
+      return NextResponse.json({
+        success: true,
+        message: `Database already seeded with ${existingEvents} events`,
+        eventsExist: existingEvents,
+      })
+    }
+
+    // Create sample organizers
+    const kudosCycling = await prisma.organizer.create({
+      data: {
+        companyName: 'Kudos Cycling',
+        website: 'https://www.kudoscycling.com',
+        description: 'Ex-pro led cycling adventures in the Swiss Alps, offering world-class road cycling, gravel cycling and mountain biking experiences.',
+        verified: true,
+        user: {
+          create: {
+            email: 'info@kudoscycling.com',
+            name: 'Kudos Cycling',
+          },
+        },
+      },
+    })
+
+    const sunvelo = await prisma.organizer.create({
+      data: {
+        companyName: 'SunVelo',
+        website: 'https://sunvelo.com',
+        description: 'ABTA bonded cycling holiday specialists offering professionally run cycling holidays in premium 4-star hotels.',
+        verified: true,
+        user: {
+          create: {
+            email: 'info@sunvelo.com',
+            name: 'SunVelo',
+          },
+        },
+      },
+    })
+
+    const swissCycling = await prisma.organizer.create({
+      data: {
+        companyName: 'Swiss Cycling',
+        website: 'https://www.swiss-cycling.ch',
+        description: 'Official Swiss cycling federation organizing premier cycling events including the legendary Alpenbrevet.',
+        verified: true,
+        user: {
+          create: {
+            email: 'info@swiss-cycling.ch',
+            name: 'Swiss Cycling',
+          },
+        },
+      },
+    })
+
+    const rideGravelBern = await prisma.organizer.create({
+      data: {
+        companyName: 'Gravel Ride & Race Bern',
+        website: 'https://ridegravel.ch',
+        description: 'Organizers of the biggest Swiss gravel event, welcoming participants on gravel, cyclocross, or mountain bikes.',
+        verified: true,
+        user: {
+          create: {
+            email: 'info@ridegravel.ch',
+            name: 'Gravel Ride Bern',
+          },
+        },
+      },
+    })
+
+    // Swiss Cycling Events
+    const events = [
+      // Kudos Cycling Events
+      {
+        title: 'Swiss Alps Performance Training Camp',
+        slug: 'swiss-alps-performance-training-camp-2025',
+        description: 'Join ex-professional cyclists for an intensive training camp in the stunning Swiss Alps. Perfect for serious cyclists looking to elevate their performance with world-class coaching and epic alpine routes including the famous Grimsel and Furka passes.',
+        type: 'TRAINING_CAMP' as const,
+        country: 'Switzerland',
+        region: 'Valais',
+        city: 'Verbier',
+        venue: 'Hotel Rhodania',
+        startDate: new Date('2025-05-15'),
+        endDate: new Date('2025-05-22'),
+        duration: 8,
+        priceMin: 1850,
+        priceMax: 2300,
+        currency: 'CHF',
+        difficulty: 'ADVANCED' as const,
+        terrain: ['ROAD'],
+        distance: 600,
+        elevation: 12000,
+        maxParticipants: 16,
+        bookingUrl: 'https://www.kudoscycling.com/training-camps',
+        websiteUrl: 'https://www.kudoscycling.com',
+        amenities: ['Professional Coaching', 'Support Vehicle', 'Bike Mechanical Support', 'Nutrition Guidance'],
+        included: ['7 nights accommodation', 'All meals', 'Professional guides', 'Airport transfers'],
+        notIncluded: ['Bike rental', 'Travel insurance', 'Personal expenses'],
+        languages: ['English', 'German', 'French'],
+        coverImage: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64',
+        images: [],
+        organizerId: kudosCycling.id,
+        published: true,
+        verified: true,
+        featured: true,
+      },
+      {
+        title: 'Swiss Alps Gravel Adventures',
+        slug: 'swiss-alps-gravel-adventures-2025',
+        description: 'Explore the hidden gravel roads of the Swiss Alps with our expert guides. Discover remote mountain passes, pristine valleys, and experience the true essence of Swiss cycling culture on perfectly maintained gravel roads through the Engadin Valley.',
+        type: 'CYCLING_HOLIDAY' as const,
+        country: 'Switzerland',
+        region: 'Graubünden',
+        city: 'Davos',
+        venue: 'Hotel Seehof',
+        startDate: new Date('2025-06-20'),
+        endDate: new Date('2025-06-27'),
+        duration: 8,
+        priceMin: 1650,
+        priceMax: 2100,
+        currency: 'CHF',
+        difficulty: 'INTERMEDIATE' as const,
+        terrain: ['GRAVEL', 'ROAD'],
+        distance: 450,
+        elevation: 8500,
+        maxParticipants: 12,
+        bookingUrl: 'https://www.kudoscycling.com/gravel-tours',
+        websiteUrl: 'https://www.kudoscycling.com',
+        amenities: ['Expert Local Guides', 'Support Vehicle', 'Route Planning', 'Local Culture Tours'],
+        included: ['7 nights accommodation', 'Breakfast & dinner', 'Professional guides', 'Maps & GPS'],
+        notIncluded: ['Lunch', 'Bike rental', 'Personal gear'],
+        languages: ['English', 'German'],
+        coverImage: 'https://images.unsplash.com/photo-1544966503-7cc5ac882d5d',
+        images: [],
+        organizerId: kudosCycling.id,
+        published: true,
+        verified: true,
+        featured: true,
+      },
+      {
+        title: 'Women Only Alpine Cycling Experience',
+        slug: 'women-only-alpine-cycling-experience-2025',
+        description: 'A supportive and empowering cycling holiday designed exclusively for women. Conquer legendary Swiss Alpine passes including the Gotthard and Oberalp in a welcoming, non-intimidating environment with experienced female guides who understand the unique needs of women cyclists.',
+        type: 'CYCLING_HOLIDAY' as const,
+        country: 'Switzerland',
+        region: 'Bernese Oberland',
+        city: 'Interlaken',
+        venue: 'Hotel Victoria Jungfrau',
+        startDate: new Date('2025-07-12'),
+        endDate: new Date('2025-07-19'),
+        duration: 8,
+        priceMin: 1750,
+        priceMax: 2200,
+        currency: 'CHF',
+        difficulty: 'INTERMEDIATE' as const,
+        terrain: ['ROAD'],
+        distance: 480,
+        elevation: 9200,
+        maxParticipants: 14,
+        bookingUrl: 'https://www.kudoscycling.com/women-cycling',
+        websiteUrl: 'https://www.kudoscycling.com',
+        amenities: ['Female Guides', 'Wellness Sessions', 'Bike Fitting', 'Photography Service'],
+        included: ['7 nights luxury accommodation', 'All meals', 'Female guides', 'Spa access'],
+        notIncluded: ['Bike rental', 'Massage treatments', 'Personal shopping'],
+        languages: ['English', 'French', 'German'],
+        coverImage: 'https://images.unsplash.com/photo-1571068316344-75bc76f77890',
+        images: [],
+        organizerId: kudosCycling.id,
+        published: true,
+        verified: true,
+      },
+
+      // SunVelo Events
+      {
+        title: 'Swiss Lakes & Alps Cycling Holiday',
+        slug: 'swiss-lakes-alps-cycling-holiday-2025',
+        description: 'Experience the perfect blend of lake-side cycling and alpine challenges. Based near Geneva, explore the beautiful Swiss countryside including rides around Lake Geneva and up to iconic viewpoints. Our expert guides will show you hidden gems while you stay in luxury 4-star accommodation.',
+        type: 'CYCLING_HOLIDAY' as const,
+        country: 'Switzerland',
+        region: 'Lake Geneva',
+        city: 'Chavannes-de-Bogis',
+        venue: 'Everness Hotel',
+        startDate: new Date('2025-08-09'),
+        endDate: new Date('2025-08-16'),
+        duration: 8,
+        priceMin: 1950,
+        priceMax: 2650,
+        currency: 'CHF',
+        difficulty: 'INTERMEDIATE' as const,
+        terrain: ['ROAD'],
+        distance: 560,
+        elevation: 8800,
+        maxParticipants: 24,
+        bookingUrl: 'https://sunvelo.com/cycling-holiday-packages/summer-season-switzerland/',
+        websiteUrl: 'https://sunvelo.com',
+        amenities: ['4-star Hotel', 'Airport Transfers', 'Spa Access', 'Bike Rental Available'],
+        included: ['7 nights half-board', 'Airport transfers', 'Expert guides', 'Gym access'],
+        notIncluded: ['Lunch', 'Drinks', 'Bike rental (optional)', 'Travel insurance'],
+        languages: ['English'],
+        coverImage: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4',
+        images: [],
+        organizerId: sunvelo.id,
+        published: true,
+        verified: true,
+        featured: true,
+      },
+
+      // Swiss Cycling Events
+      {
+        title: 'Swiss Cycling Alpenbrevet 2025',
+        slug: 'swiss-cycling-alpenbrevet-2025',
+        description: 'The legendary Alpenbrevet - Switzerland\'s largest grassroots cycling event and absolute must-do for any serious cyclist. Choose from 6 route options crossing up to 5 Alpine passes including Susten, Grimsel, Nufenen, Lukmanier and Oberalp. This is not a race, but a personal challenge and unforgettable experience through the heart of the Swiss Alps.',
+        type: 'TOUR' as const,
+        country: 'Switzerland',
+        region: 'Uri',
+        city: 'Andermatt',
+        venue: 'Andermatt Swiss Alps',
+        startDate: new Date('2025-09-06'),
+        endDate: new Date('2025-09-06'),
+        duration: 1,
+        priceMin: 180,
+        priceMax: 280,
+        currency: 'CHF',
+        difficulty: 'EXPERT' as const,
+        terrain: ['ROAD'],
+        distance: 267,
+        elevation: 6800,
+        maxParticipants: 3250,
+        bookingUrl: 'https://alpenbrevet.ch/en/',
+        websiteUrl: 'https://alpenbrevet.ch/en/',
+        amenities: ['Feed Stations', 'Medical Support', 'Mechanical Support', 'Finisher Medal'],
+        included: ['Start package', 'Feed stations', 'Medical support', 'Finisher certificate'],
+        notIncluded: ['Accommodation', 'Meals', 'Transport', 'Bike rental'],
+        languages: ['German', 'French', 'Italian', 'English'],
+        coverImage: 'https://images.unsplash.com/photo-1551698618-1dfe5d97d256',
+        images: [],
+        organizerId: swissCycling.id,
+        published: true,
+        verified: true,
+        featured: true,
+        currentBookings: 3250, // Sold out
+      },
+      {
+        title: 'Tour de Suisse Amateur Experience',
+        slug: 'tour-de-suisse-amateur-experience-2025',
+        description: 'Race on the original Tour de Suisse course! Join amateur cyclists from around the world for this unique opportunity to experience the legendary Swiss tour routes. Feel the atmosphere of professional cycling as you tackle the same roads as the world\'s best cyclists just days after the pro race.',
+        type: 'WEEKEND_GETAWAY' as const,
+        country: 'Switzerland',
+        region: 'Central Switzerland',
+        city: 'Küssnacht',
+        venue: 'Various locations',
+        startDate: new Date('2025-06-21'),
+        endDate: new Date('2025-06-22'),
+        duration: 2,
+        priceMin: 250,
+        priceMax: 380,
+        currency: 'CHF',
+        difficulty: 'ADVANCED' as const,
+        terrain: ['ROAD'],
+        distance: 180,
+        elevation: 3400,
+        maxParticipants: 500,
+        bookingUrl: 'https://www.tourdesuisse.ch/en/',
+        websiteUrl: 'https://www.tourdesuisse.ch/en/',
+        amenities: ['Pro Race Atmosphere', 'Feed Stations', 'Race Numbers', 'Live Timing'],
+        included: ['Start package', 'Feed stations', 'Race timing', 'Expo access'],
+        notIncluded: ['Accommodation', 'Meals', 'Transport'],
+        languages: ['German', 'French', 'English'],
+        coverImage: 'https://images.unsplash.com/photo-1541625602330-2277a4c46182',
+        images: [],
+        organizerId: swissCycling.id,
+        published: true,
+        verified: true,
+      },
+
+      // Gravel Events
+      {
+        title: 'Gravel Ride & Race Bern 2025',
+        slug: 'gravel-ride-race-bern-2025',
+        description: 'Switzerland\'s biggest gravel event returns for its 6th edition! Challenge yourself on beautiful gravel roads around the Swiss capital, exploring hidden valleys and forest paths. Perfect for gravel bikes, cyclocross bikes, or mountain bikes. Multiple distance options ensure there\'s a challenge for every level.',
+        type: 'WEEKEND_GETAWAY' as const,
+        country: 'Switzerland',
+        region: 'Bern',
+        city: 'Bern',
+        venue: 'Bern City Center',
+        startDate: new Date('2025-10-18'),
+        endDate: new Date('2025-10-18'),
+        duration: 1,
+        priceMin: 85,
+        priceMax: 120,
+        currency: 'CHF',
+        difficulty: 'INTERMEDIATE' as const,
+        terrain: ['GRAVEL', 'ROAD'],
+        distance: 120,
+        elevation: 1800,
+        maxParticipants: 1200,
+        bookingUrl: 'https://ridegravel.ch/en/bern/',
+        websiteUrl: 'https://ridegravel.ch',
+        amenities: ['Multiple Distance Options', 'Feed Stations', 'Bike Wash', 'After Party'],
+        included: ['Start package', 'Feed stations', 'Timing chip', 'Event t-shirt'],
+        notIncluded: ['Accommodation', 'Meals', 'Bike rental'],
+        languages: ['German', 'English'],
+        coverImage: 'https://images.unsplash.com/photo-1544966503-7cc5ac882d5d',
+        images: [],
+        organizerId: rideGravelBern.id,
+        published: true,
+        verified: true,
+      },
+      {
+        title: 'Swiss Alps Weekend Gravel Explorer',
+        slug: 'swiss-alps-weekend-gravel-explorer-2025',
+        description: 'A perfect introduction to Swiss gravel cycling in the stunning Engadin Valley. Two days exploring scenic gravel roads with breathtaking glacier views, charming mountain villages, and pristine alpine lakes. Ideal for cyclists new to gravel riding or those wanting a more relaxed alpine experience.',
+        type: 'WEEKEND_GETAWAY' as const,
+        country: 'Switzerland',
+        region: 'Engadin',
+        city: 'St. Moritz',
+        venue: 'Hotel Kulm',
+        startDate: new Date('2025-09-13'),
+        endDate: new Date('2025-09-14'),
+        duration: 2,
+        priceMin: 450,
+        priceMax: 650,
+        currency: 'CHF',
+        difficulty: 'BEGINNER' as const,
+        terrain: ['GRAVEL', 'ROAD'],
+        distance: 80,
+        elevation: 1200,
+        maxParticipants: 25,
+        bookingUrl: 'https://www.kudoscycling.com/weekend-tours',
+        websiteUrl: 'https://www.kudoscycling.com',
+        amenities: ['Scenic Routes', 'Local Guides', 'Photography Stops', 'Local Cuisine'],
+        included: ['1 night accommodation', 'Breakfast & dinner', 'Guide service', 'Route maps'],
+        notIncluded: ['Lunch', 'Bike rental', 'Transport to venue'],
+        languages: ['English', 'German'],
+        coverImage: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4',
+        images: [],
+        organizerId: kudosCycling.id,
+        published: true,
+        verified: true,
+      },
+      {
+        title: 'Swiss Mountain Pass Challenge Weekend',
+        slug: 'swiss-mountain-pass-challenge-weekend-2025',
+        description: 'Conquer iconic Swiss mountain passes in this intensive weekend challenge. Perfect for experienced cyclists looking to test their limits on legendary climbs including the Great St. Bernard Pass and Col du Grand Saint-Bernard. Experience the thrill of high-altitude cycling with expert support.',
+        type: 'WEEKEND_GETAWAY' as const,
+        country: 'Switzerland',
+        region: 'Valais',
+        city: 'Sion',
+        venue: 'Hotel Elite',
+        startDate: new Date('2025-08-23'),
+        endDate: new Date('2025-08-24'),
+        duration: 2,
+        priceMin: 380,
+        priceMax: 520,
+        currency: 'CHF',
+        difficulty: 'EXPERT' as const,
+        terrain: ['ROAD'],
+        distance: 160,
+        elevation: 4200,
+        maxParticipants: 20,
+        bookingUrl: 'https://sunvelo.com/weekend-challenges',
+        websiteUrl: 'https://sunvelo.com',
+        amenities: ['Challenging Climbs', 'Support Vehicle', 'Recovery Sessions', 'Achievement Certificates'],
+        included: ['1 night accommodation', 'All meals', 'Support vehicle', 'Guide service'],
+        notIncluded: ['Bike rental', 'Massage treatments', 'Personal gear'],
+        languages: ['English', 'French'],
+        coverImage: 'https://images.unsplash.com/photo-1517654443271-21d70e93b8d2',
+        images: [],
+        organizerId: sunvelo.id,
+        published: true,
+        verified: true,
+      },
+    ]
+
+    let createdEvents = 0
+    for (const eventData of events) {
+      await prisma.event.create({
+        data: eventData,
+      })
+      createdEvents++
+      console.log(`✅ Created event: ${eventData.title}`)
+    }
+
+    return NextResponse.json({
+      success: true,
+      message: `Successfully seeded ${createdEvents} Swiss cycling events`,
+      eventsCreated: createdEvents,
+      organizersCreated: 4,
+      events: events.map(e => ({ title: e.title, city: e.city, price: `CHF ${e.priceMin}-${e.priceMax}` }))
+    })
+
+  } catch (error) {
+    console.error('Error seeding database:', error)
+    return NextResponse.json(
+      { 
+        success: false, 
+        error: 'Failed to seed database',
+        details: error instanceof Error ? error.message : 'Unknown error'
+      },
+      { status: 500 }
+    )
+  }
+}
