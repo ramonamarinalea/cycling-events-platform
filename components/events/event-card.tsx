@@ -125,7 +125,7 @@ export function EventCard({ event }: EventCardProps) {
             <div className="flex items-center">
               <Users size={12} className="mr-1" />
               <span>
-                {event.currentBookings}/{event.maxParticipants} spots
+                {event.maxParticipants} spots
               </span>
             </div>
           )}
