@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import Link from "next/link"
 import { Search, Filter, Plus } from "lucide-react"
 import { EventCard } from "@/components/events/event-card"
+import { PastEventCard } from "@/components/events/past-event-card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -28,7 +29,9 @@ const difficulties = [
 
 export default function EventsPage() {
   const [events, setEvents] = useState<EventWithRelations[]>([])
+  const [pastEvents, setPastEvents] = useState<EventWithRelations[]>([])
   const [loading, setLoading] = useState(true)
+  const [loadingPast, setLoadingPast] = useState(false)
   const [filters, setFilters] = useState({
     search: "",
     type: "",
@@ -47,6 +50,7 @@ export default function EventsPage() {
 
   useEffect(() => {
     fetchEvents()
+    fetchPastEvents()
   }, [filters, pagination.page])
 
   const fetchEvents = async () => {
@@ -74,6 +78,26 @@ export default function EventsPage() {
       console.error("Error fetching events:", error)
     } finally {
       setLoading(false)
+    }
+  }
+
+  const fetchPastEvents = async () => {
+    setLoadingPast(true)
+    try {
+      const params = new URLSearchParams()
+      params.append("past", "true")
+      params.append("limit", "20") // Show more past events for SEO
+      
+      const response = await fetch(`/api/events?${params}`)
+      const data = await response.json()
+      
+      if (response.ok) {
+        setPastEvents(data.events)
+      }
+    } catch (error) {
+      console.error("Error fetching past events:", error)
+    } finally {
+      setLoadingPast(false)
     }
   }
 
@@ -221,55 +245,85 @@ export default function EventsPage() {
 
       {/* Content */}
       <div className="container mx-auto px-4 py-8">
-        {loading ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {[...Array(8)].map((_, i) => (
-              <div key={i} className="bg-white rounded-lg shadow-md h-96 animate-pulse">
-                <div className="h-48 bg-gray-200"></div>
-                <div className="p-4">
-                  <div className="h-4 bg-gray-200 rounded mb-2"></div>
-                  <div className="h-4 bg-gray-200 rounded w-3/4"></div>
-                </div>
-              </div>
-            ))}
-          </div>
-        ) : events.length > 0 ? (
-          <>
+        {/* Upcoming Events Section */}
+        <div className="mb-12">
+          <h2 className="text-2xl font-bold mb-6">Upcoming Events</h2>
+          {loading ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {events.map((event) => (
-                <EventCard key={event.id} event={event} />
+              {[...Array(8)].map((_, i) => (
+                <div key={i} className="bg-white rounded-lg shadow-md h-96 animate-pulse">
+                  <div className="h-48 bg-gray-200"></div>
+                  <div className="p-4">
+                    <div className="h-4 bg-gray-200 rounded mb-2"></div>
+                    <div className="h-4 bg-gray-200 rounded w-3/4"></div>
+                  </div>
+                </div>
               ))}
             </div>
+          ) : events.length > 0 ? (
+            <>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                {events.map((event) => (
+                  <EventCard key={event.id} event={event} />
+                ))}
+              </div>
 
-            {/* Pagination */}
-            {pagination.totalPages > 1 && (
-              <div className="mt-8 flex justify-center gap-2">
-                <Button
-                  variant="outline"
-                  disabled={pagination.page === 1}
-                  onClick={() => setPagination(prev => ({ ...prev, page: prev.page - 1 }))}
-                >
-                  Previous
-                </Button>
-                <span className="flex items-center px-4">
-                  Page {pagination.page} of {pagination.totalPages}
-                </span>
-                <Button
-                  variant="outline"
-                  disabled={pagination.page === pagination.totalPages}
-                  onClick={() => setPagination(prev => ({ ...prev, page: prev.page + 1 }))}
-                >
-                  Next
-                </Button>
+              {/* Pagination */}
+              {pagination.totalPages > 1 && (
+                <div className="mt-8 flex justify-center gap-2">
+                  <Button
+                    variant="outline"
+                    disabled={pagination.page === 1}
+                    onClick={() => setPagination(prev => ({ ...prev, page: prev.page - 1 }))}
+                  >
+                    Previous
+                  </Button>
+                  <span className="flex items-center px-4">
+                    Page {pagination.page} of {pagination.totalPages}
+                  </span>
+                  <Button
+                    variant="outline"
+                    disabled={pagination.page === pagination.totalPages}
+                    onClick={() => setPagination(prev => ({ ...prev, page: prev.page + 1 }))}
+                  >
+                    Next
+                  </Button>
+                </div>
+              )}
+            </>
+          ) : (
+            <div className="text-center py-12">
+              <p className="text-gray-500 mb-4">No upcoming events found</p>
+              <Button asChild>
+                <Link href="/events/new">Create the first event</Link>
+              </Button>
+            </div>
+          )}
+        </div>
+
+        {/* Past Events Section */}
+        {(pastEvents.length > 0 || loadingPast) && (
+          <div>
+            <h2 className="text-2xl font-bold mb-6 text-gray-600">Past Events</h2>
+            {loadingPast ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                {[...Array(4)].map((_, i) => (
+                  <div key={i} className="bg-white rounded-lg shadow-md h-96 animate-pulse">
+                    <div className="h-48 bg-gray-200"></div>
+                    <div className="p-4">
+                      <div className="h-4 bg-gray-200 rounded mb-2"></div>
+                      <div className="h-4 bg-gray-200 rounded w-3/4"></div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                {pastEvents.map((event) => (
+                  <PastEventCard key={event.id} event={event} />
+                ))}
               </div>
             )}
-          </>
-        ) : (
-          <div className="text-center py-12">
-            <p className="text-gray-500 mb-4">No events found</p>
-            <Button asChild>
-              <Link href="/events/new">Create the first event</Link>
-            </Button>
           </div>
         )}
       </div>

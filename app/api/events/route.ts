@@ -66,12 +66,23 @@ export async function GET(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url)
     
+    // Check if showing past events
+    const showPast = searchParams.get("past") === "true"
+    
     // Build filters
     const where: any = {
       published: true, // Only show published events
-      startDate: {
+    }
+    
+    // Filter by past or future events
+    if (showPast) {
+      where.startDate = {
+        lt: new Date(), // Only show past events
+      }
+    } else {
+      where.startDate = {
         gte: new Date(), // Only show future events
-      },
+      }
     }
 
     // Type filter
