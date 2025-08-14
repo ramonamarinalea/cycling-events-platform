@@ -116,11 +116,11 @@ export async function GET(req: NextRequest) {
         included: ['7 nights accommodation', 'All meals', 'Professional guides', 'Airport transfers'],
         notIncluded: ['Bike rental', 'Travel insurance', 'Personal expenses'],
         languages: ['English', 'German', 'French'],
-        coverImage: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=800&q=80',
+        coverImage: 'https://images.squarespace-cdn.com/content/v1/57fa5a39ff7c5085cbded0f7/1585864832626-1P4A7GS98VG64APZFTI3/4F0A8658.jpg',
         images: [
-          'https://images.unsplash.com/photo-1517654443271-21d70e93b8d2?auto=format&fit=crop&w=800&q=80',
-          'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=800&q=80',
-          'https://images.unsplash.com/photo-1571068316344-75bc76f77890?auto=format&fit=crop&w=800&q=80'
+          'https://images.squarespace-cdn.com/content/v1/57fa5a39ff7c5085cbded0f7/1585759750371-8WZVMXKXHC8X0K3LZTU0/Kudos_cycling_055.jpg',
+          'https://images.squarespace-cdn.com/content/v1/57fa5a39ff7c5085cbded0f7/1585864832626-1P4A7GS98VG64APZFTI3/4F0A8658.jpg',
+          'https://images.squarespace-cdn.com/content/v1/57fa5a39ff7c5085cbded0f7/1588348159562-0JU7T02CL7XJBUGAT004/Untitled+design+%2822%29.png'
         ],
         organizerId: kudosCycling.id,
         published: true,
@@ -153,11 +153,11 @@ export async function GET(req: NextRequest) {
         included: ['7 nights accommodation', 'Breakfast & dinner', 'Professional guides', 'Maps & GPS'],
         notIncluded: ['Lunch', 'Bike rental', 'Personal gear'],
         languages: ['English', 'German'],
-        coverImage: 'https://images.unsplash.com/photo-1544966503-7cc5ac882d5d?auto=format&fit=crop&w=800&q=80',
+        coverImage: 'https://images.squarespace-cdn.com/content/v1/57fa5a39ff7c5085cbded0f7/1585759750371-8WZVMXKXHC8X0K3LZTU0/Kudos_cycling_055.jpg',
         images: [
-          'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=800&q=80',
-          'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=800&q=80',
-          'https://images.unsplash.com/photo-1517734975191-5d7c1c60b1c0?auto=format&fit=crop&w=800&q=80'
+          'https://images.squarespace-cdn.com/content/v1/57fa5a39ff7c5085cbded0f7/1585864832626-1P4A7GS98VG64APZFTI3/4F0A8658.jpg',
+          'https://images.squarespace-cdn.com/content/v1/57fa5a39ff7c5085cbded0f7/1585759750371-8WZVMXKXHC8X0K3LZTU0/Kudos_cycling_055.jpg',
+          'https://images.squarespace-cdn.com/content/v1/57fa5a39ff7c5085cbded0f7/1588348159562-0JU7T02CL7XJBUGAT004/Untitled+design+%2822%29.png'
         ],
         organizerId: kudosCycling.id,
         published: true,
@@ -190,11 +190,11 @@ export async function GET(req: NextRequest) {
         included: ['7 nights luxury accommodation', 'All meals', 'Female guides', 'Spa access'],
         notIncluded: ['Bike rental', 'Massage treatments', 'Personal shopping'],
         languages: ['English', 'French', 'German'],
-        coverImage: 'https://images.unsplash.com/photo-1571068316344-75bc76f77890?auto=format&fit=crop&w=800&q=80',
+        coverImage: 'https://images.squarespace-cdn.com/content/v1/57fa5a39ff7c5085cbded0f7/1585864832626-1P4A7GS98VG64APZFTI3/4F0A8658.jpg',
         images: [
-          'https://images.unsplash.com/photo-1517654443271-21d70e93b8d2?auto=format&fit=crop&w=800&q=80',
-          'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=800&q=80',
-          'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=800&q=80'
+          'https://images.squarespace-cdn.com/content/v1/57fa5a39ff7c5085cbded0f7/1585759750371-8WZVMXKXHC8X0K3LZTU0/Kudos_cycling_055.jpg',
+          'https://images.squarespace-cdn.com/content/v1/57fa5a39ff7c5085cbded0f7/1585864832626-1P4A7GS98VG64APZFTI3/4F0A8658.jpg',
+          'https://images.squarespace-cdn.com/content/v1/57fa5a39ff7c5085cbded0f7/1588348159562-0JU7T02CL7XJBUGAT004/Untitled+design+%2822%29.png'
         ],
         organizerId: kudosCycling.id,
         published: true,
@@ -228,11 +228,11 @@ export async function GET(req: NextRequest) {
         included: ['7 nights half-board', 'Airport transfers', 'Expert guides', 'Gym access'],
         notIncluded: ['Lunch', 'Drinks', 'Bike rental (optional)', 'Travel insurance'],
         languages: ['English'],
-        coverImage: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=800&q=80',
+        coverImage: 'https://sunvelo.com/wp-content/uploads/2024/06/Cycling-Holiday-Switzerland.jpg',
         images: [
-          'https://images.unsplash.com/photo-1517654443271-21d70e93b8d2?auto=format&fit=crop&w=800&q=80',
-          'https://images.unsplash.com/photo-1571068316344-75bc76f77890?auto=format&fit=crop&w=800&q=80',
-          'https://images.unsplash.com/photo-1544966503-7cc5ac882d5d?auto=format&fit=crop&w=800&q=80'
+          'https://sunvelo.com/wp-content/uploads/2024/06/Cycling-Holiday-Switzerland.jpg',
+          'https://sunvelo.com/wp-content/uploads/2024/06/Cycling-Holiday-Mallorca-Spain.jpg',
+          'https://sunvelo.com/wp-content/uploads/2024/06/Cycling-Holiday-Girona-Spain.jpg'
         ],
         organizerId: sunvelo.id,
         published: true,
@@ -267,11 +267,11 @@ export async function GET(req: NextRequest) {
         included: ['Start package', 'Feed stations', 'Medical support', 'Finisher certificate'],
         notIncluded: ['Accommodation', 'Meals', 'Transport', 'Bike rental'],
         languages: ['German', 'French', 'Italian', 'English'],
-        coverImage: 'https://images.unsplash.com/photo-1517654443271-21d70e93b8d2?auto=format&fit=crop&w=800&q=80',
+        coverImage: 'https://alpenbrevet.ch/wp-content/uploads/Platintour-768x512.jpg',
         images: [
-          'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=800&q=80',
-          'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?auto=format&fit=crop&w=800&q=80',
-          'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=800&q=80'
+          'https://alpenbrevet.ch/wp-content/uploads/Goldtour-768x512.jpg',
+          'https://alpenbrevet.ch/wp-content/uploads/Silbertour-2-768x512.jpg',
+          'https://alpenbrevet.ch/wp-content/uploads/Bronzetour-768x512.jpg'
         ],
         organizerId: swissCycling.id,
         published: true,
@@ -343,11 +343,11 @@ export async function GET(req: NextRequest) {
         included: ['Start package', 'Feed stations', 'Timing chip', 'Event t-shirt'],
         notIncluded: ['Accommodation', 'Meals', 'Bike rental'],
         languages: ['German', 'English'],
-        coverImage: 'https://images.unsplash.com/photo-1571068316344-75bc76f77890?auto=format&fit=crop&w=800&q=80',
+        coverImage: 'https://ridegravel.ch/switcher/wp-content/uploads/sites/3/2024/11/bg-scaled.jpg',
         images: [
-          'https://images.unsplash.com/photo-1544966503-7cc5ac882d5d?auto=format&fit=crop&w=800&q=80',
-          'https://images.unsplash.com/photo-1517654443271-21d70e93b8d2?auto=format&fit=crop&w=800&q=80',
-          'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=800&q=80'
+          'https://ridegravel.ch/switcher/wp-content/uploads/sites/3/2024/11/bg-scaled.jpg',
+          'https://ridegravel.ch/switcher/wp-content/uploads/sites/3/2024/11/logo-be.svg',
+          'https://alpenbrevet.ch/wp-content/uploads/Tremola-By-Night-Teaser-Image-1425x802-1-768x432.jpg'
         ],
         organizerId: rideGravelBern.id,
         published: true,
@@ -379,11 +379,11 @@ export async function GET(req: NextRequest) {
         included: ['1 night accommodation', 'Breakfast & dinner', 'Guide service', 'Route maps'],
         notIncluded: ['Lunch', 'Bike rental', 'Transport to venue'],
         languages: ['English', 'German'],
-        coverImage: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=800&q=80',
+        coverImage: 'https://images.squarespace-cdn.com/content/v1/57fa5a39ff7c5085cbded0f7/1585759750371-8WZVMXKXHC8X0K3LZTU0/Kudos_cycling_055.jpg',
         images: [
-          'https://images.unsplash.com/photo-1544966503-7cc5ac882d5d?auto=format&fit=crop&w=800&q=80',
-          'https://images.unsplash.com/photo-1517654443271-21d70e93b8d2?auto=format&fit=crop&w=800&q=80',
-          'https://images.unsplash.com/photo-1571068316344-75bc76f77890?auto=format&fit=crop&w=800&q=80'
+          'https://images.squarespace-cdn.com/content/v1/57fa5a39ff7c5085cbded0f7/1585864832626-1P4A7GS98VG64APZFTI3/4F0A8658.jpg',
+          'https://images.squarespace-cdn.com/content/v1/57fa5a39ff7c5085cbded0f7/1585759750371-8WZVMXKXHC8X0K3LZTU0/Kudos_cycling_055.jpg',
+          'https://images.squarespace-cdn.com/content/v1/57fa5a39ff7c5085cbded0f7/1588348159562-0JU7T02CL7XJBUGAT004/Untitled+design+%2822%29.png'
         ],
         organizerId: kudosCycling.id,
         published: true,
@@ -415,11 +415,11 @@ export async function GET(req: NextRequest) {
         included: ['1 night accommodation', 'All meals', 'Support vehicle', 'Guide service'],
         notIncluded: ['Bike rental', 'Massage treatments', 'Personal gear'],
         languages: ['English', 'French'],
-        coverImage: 'https://images.unsplash.com/photo-1517654443271-21d70e93b8d2?auto=format&fit=crop&w=800&q=80',
+        coverImage: 'https://sunvelo.com/wp-content/uploads/2024/06/Cycling-Holiday-Switzerland.jpg',
         images: [
-          'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=800&q=80',
-          'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=800&q=80',
-          'https://images.unsplash.com/photo-1544966503-7cc5ac882d5d?auto=format&fit=crop&w=800&q=80'
+          'https://sunvelo.com/wp-content/uploads/2024/06/Cycling-Holiday-Switzerland.jpg',
+          'https://sunvelo.com/wp-content/uploads/2024/06/Cycling-Holiday-Mallorca-Spain.jpg',
+          'https://sunvelo.com/wp-content/uploads/2024/06/Cycling-Holiday-Girona-Spain.jpg'
         ],
         organizerId: sunvelo.id,
         published: true,
