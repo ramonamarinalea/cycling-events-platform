@@ -109,7 +109,7 @@ export function EventCard({ event }: EventCardProps) {
 
         {/* Terrain */}
         <div className="flex flex-wrap gap-1 mb-3">
-          {JSON.parse(event.terrain).map((t: string) => (
+          {event.terrain.map((t) => (
             <span
               key={t}
               className="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded"

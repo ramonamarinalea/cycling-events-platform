@@ -6,7 +6,7 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -100,7 +100,7 @@ model Event {
   
   // Details
   difficulty  Difficulty
-  terrain     String // JSON array of Terrain types
+  terrain     Terrain[]
   distance    Float?   // total distance in km
   elevation   Float?   // total elevation in meters
   
@@ -113,14 +113,14 @@ model Event {
   websiteUrl  String?
   
   // Features
-  amenities   String // JSON array
-  included    String // JSON array  
-  notIncluded String // JSON array
-  languages   String // JSON array
+  amenities   String[]
+  included    String[]  
+  notIncluded String[]
+  languages   String[]
   
   // Images
   coverImage  String?
-  images      String // JSON array
+  images      String[]
   
   // Meta
   source      EventSource @default(USER)
