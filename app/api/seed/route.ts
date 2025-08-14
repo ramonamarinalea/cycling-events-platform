@@ -116,10 +116,10 @@ export async function GET(req: NextRequest) {
         included: ['7 nights accommodation', 'All meals', 'Professional guides', 'Airport transfers'],
         notIncluded: ['Bike rental', 'Travel insurance', 'Personal expenses'],
         languages: ['English', 'German', 'French'],
-        coverImage: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=800&q=80',
+        coverImage: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=800&q=80',
         images: [
-          'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=800&q=80',
           'https://images.unsplash.com/photo-1517654443271-21d70e93b8d2?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=800&q=80',
           'https://images.unsplash.com/photo-1571068316344-75bc76f77890?auto=format&fit=crop&w=800&q=80'
         ],
         organizerId: kudosCycling.id,
@@ -267,10 +267,10 @@ export async function GET(req: NextRequest) {
         included: ['Start package', 'Feed stations', 'Medical support', 'Finisher certificate'],
         notIncluded: ['Accommodation', 'Meals', 'Transport', 'Bike rental'],
         languages: ['German', 'French', 'Italian', 'English'],
-        coverImage: 'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?auto=format&fit=crop&w=800&q=80',
+        coverImage: 'https://images.unsplash.com/photo-1517654443271-21d70e93b8d2?auto=format&fit=crop&w=800&q=80',
         images: [
-          'https://images.unsplash.com/photo-1517654443271-21d70e93b8d2?auto=format&fit=crop&w=800&q=80',
           'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?auto=format&fit=crop&w=800&q=80',
           'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=800&q=80'
         ],
         organizerId: swissCycling.id,
@@ -343,10 +343,10 @@ export async function GET(req: NextRequest) {
         included: ['Start package', 'Feed stations', 'Timing chip', 'Event t-shirt'],
         notIncluded: ['Accommodation', 'Meals', 'Bike rental'],
         languages: ['German', 'English'],
-        coverImage: 'https://images.unsplash.com/photo-1544966503-7cc5ac882d5d?auto=format&fit=crop&w=800&q=80',
+        coverImage: 'https://images.unsplash.com/photo-1571068316344-75bc76f77890?auto=format&fit=crop&w=800&q=80',
         images: [
+          'https://images.unsplash.com/photo-1544966503-7cc5ac882d5d?auto=format&fit=crop&w=800&q=80',
           'https://images.unsplash.com/photo-1517654443271-21d70e93b8d2?auto=format&fit=crop&w=800&q=80',
-          'https://images.unsplash.com/photo-1571068316344-75bc76f77890?auto=format&fit=crop&w=800&q=80',
           'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=800&q=80'
         ],
         organizerId: rideGravelBern.id,
