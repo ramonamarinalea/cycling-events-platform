@@ -9,6 +9,17 @@ const nextConfig: NextConfig = {
     // Temporarily ignore ESLint errors during build for deployment
     ignoreDuringBuilds: true,
   },
+  images: {
+    domains: ['images.unsplash.com'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+        port: '',
+        pathname: '/**',
+      },
+    ],
+  },
 };
 
 export default nextConfig;
