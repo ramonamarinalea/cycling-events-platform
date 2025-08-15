@@ -6,24 +6,24 @@ export default function HomePage() {
   return (
     <div className="bg-white">
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-blue-600 to-blue-800 text-white">
+      <section className="relative bg-white text-black">
         <div className="container mx-auto px-4 py-24">
-          <div className="max-w-3xl">
-            <h1 className="text-5xl font-bold mb-6">
-              Discover Your Next Cycling Adventure
+          <div className="max-w-4xl mx-auto text-center">
+            <h1 className="text-6xl font-bold mb-6 tracking-tight" style={{ fontFamily: 'Satoshi, sans-serif' }}>
+              Cycling Events & Adventures
             </h1>
-            <p className="text-xl mb-8 text-blue-100">
-              Find and book cycling holidays, training camps, and weekend getaways worldwide.
-              Join thousands of cyclists exploring the world on two wheels.
+            <p className="text-xl mb-8 text-gray-600 font-light max-w-2xl mx-auto">
+              Discover unforgettable cycling experiences from training camps in the Swiss Alps 
+              to weekend getaways exploring hidden gravel routes.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Button asChild size="lg" className="bg-white text-blue-600 hover:bg-gray-100">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button asChild size="lg" className="bg-black text-white hover:bg-gray-800">
                 <Link href="/events">
                   Browse Events
                   <ArrowRight className="ml-2" size={20} />
                 </Link>
               </Button>
-              <Button asChild size="lg" variant="outline" className="border-white text-white hover:bg-white/10">
+              <Button asChild size="lg" variant="outline" className="border border-black text-black hover:bg-black hover:text-white">
                 <Link href="/events/new">
                   List Your Event
                 </Link>
@@ -31,53 +31,50 @@ export default function HomePage() {
             </div>
           </div>
         </div>
-        <div className="absolute bottom-0 right-0 opacity-10">
-          <Mountain size={400} />
-        </div>
       </section>
 
       {/* Features Section */}
       <section className="py-20 bg-gray-50">
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center mb-12">
-            Why Choose CycleGetaways?
+          <h2 className="text-3xl font-bold text-center mb-12 text-black" style={{ fontFamily: 'Satoshi, sans-serif' }}>
+            Why Choose Pedal Peak Events?
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             <div className="text-center">
-              <div className="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Globe className="text-blue-600" size={32} />
+              <div className="bg-gray-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Globe className="text-black" size={32} />
               </div>
-              <h3 className="font-semibold text-lg mb-2">Worldwide Coverage</h3>
+              <h3 className="font-semibold text-lg mb-2 text-black">Swiss Focus</h3>
               <p className="text-gray-600">
-                Events from every corner of the globe, from Alps to Andes
+                Curated events in the most beautiful Swiss cycling regions
               </p>
             </div>
             
             <div className="text-center">
-              <div className="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Shield className="text-green-600" size={32} />
+              <div className="bg-gray-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Shield className="text-black" size={32} />
               </div>
-              <h3 className="font-semibold text-lg mb-2">Verified Organizers</h3>
+              <h3 className="font-semibold text-lg mb-2 text-black">Verified Organizers</h3>
               <p className="text-gray-600">
                 All organizers are verified for quality and reliability
               </p>
             </div>
             
             <div className="text-center">
-              <div className="bg-purple-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Users className="text-purple-600" size={32} />
+              <div className="bg-gray-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Users className="text-black" size={32} />
               </div>
-              <h3 className="font-semibold text-lg mb-2">Community Reviews</h3>
+              <h3 className="font-semibold text-lg mb-2 text-black">Community Driven</h3>
               <p className="text-gray-600">
-                Real reviews from real cyclists to help you choose
+                Built by cyclists, for cyclists - no egos, just pure cycling joy
               </p>
             </div>
             
             <div className="text-center">
-              <div className="bg-orange-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Search className="text-orange-600" size={32} />
+              <div className="bg-gray-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Search className="text-black" size={32} />
               </div>
-              <h3 className="font-semibold text-lg mb-2">Smart Search</h3>
+              <h3 className="font-semibold text-lg mb-2 text-black">Smart Search</h3>
               <p className="text-gray-600">
                 Filter by difficulty, terrain, dates, and more
               </p>
@@ -187,9 +184,9 @@ export default function HomePage() {
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div>
-              <h3 className="font-semibold text-white mb-4">CycleGetaways</h3>
+              <h3 className="font-semibold text-white mb-4" style={{ fontFamily: 'Satoshi, sans-serif' }}>Pedal Peak Events</h3>
               <p className="text-sm">
-                Your gateway to cycling adventures worldwide
+                Discover unforgettable cycling experiences worldwide
               </p>
             </div>
             
@@ -224,7 +221,7 @@ export default function HomePage() {
           </div>
           
           <div className="border-t border-gray-800 mt-8 pt-8 text-center text-sm">
-            <p>© 2024 CycleGetaways. All rights reserved.</p>
+            <p>© 2024 Pedal Peak Events. All rights reserved.</p>
           </div>
         </div>
       </footer>
