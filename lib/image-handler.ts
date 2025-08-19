@@ -10,32 +10,32 @@ export interface ImageResult {
 
 export class ImageHandler {
   private static readonly DEFAULT_IMAGES = {
-    TRAINING_CAMP: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&h=400&fit=crop&crop=center', // Cyclist training
-    CYCLING_HOLIDAY: 'https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=800&h=400&fit=crop&crop=center', // Scenic cycling
-    WEEKEND_GETAWAY: 'https://images.unsplash.com/photo-1544191696-15693c62e1b4?w=800&h=400&fit=crop&crop=center', // Mountain biking
-    TOUR: 'https://images.unsplash.com/photo-1517654443271-14c4e7b6a20b?w=800&h=400&fit=crop&crop=center', // Group cycling tour
-    EXPEDITION: 'https://images.unsplash.com/photo-1544266503-7ad532c8e936?w=800&h=400&fit=crop&crop=center', // Adventure cycling
+    TRAINING_CAMP: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64', // Cyclist training
+    CYCLING_HOLIDAY: 'https://images.unsplash.com/photo-1558618047-3c8c76ca7d13', // Scenic cycling
+    WEEKEND_GETAWAY: 'https://images.unsplash.com/photo-1544191696-15693c62e1b4', // Mountain biking
+    TOUR: 'https://images.unsplash.com/photo-1517654443271-14c4e7b6a20b', // Group cycling tour
+    EXPEDITION: 'https://images.unsplash.com/photo-1544266503-7ad532c8e936', // Adventure cycling
   };
 
   private static readonly COUNTRY_IMAGES = {
-    'Switzerland': 'https://images.unsplash.com/photo-1527095655060-4026c4af2b25?w=800&h=400&fit=crop&crop=center',
-    'Austria': 'https://images.unsplash.com/photo-1551262235-3c533c64e7ab?w=800&h=400&fit=crop&crop=center',
-    'Italy': 'https://images.unsplash.com/photo-1515542622106-78bda8ba0e5b?w=800&h=400&fit=crop&crop=center',
-    'France': 'https://images.unsplash.com/photo-1540270776932-e72e7c2d11cd?w=800&h=400&fit=crop&crop=center',
-    'Spain': 'https://images.unsplash.com/photo-1539037116277-4db20889f2d4?w=800&h=400&fit=crop&crop=center',
-    'Germany': 'https://images.unsplash.com/photo-1467269204594-9661b134dd2b?w=800&h=400&fit=crop&crop=center',
-    'Netherlands': 'https://images.unsplash.com/photo-1534351450181-ea58bf205b9e?w=800&h=400&fit=crop&crop=center',
-    'Belgium': 'https://images.unsplash.com/photo-1577717903315-1691ae25ab3f?w=800&h=400&fit=crop&crop=center',
-    'Denmark': 'https://images.unsplash.com/photo-1568649084754-65fc5c6a8ecb?w=800&h=400&fit=crop&crop=center',
-    'Norway': 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=400&fit=crop&crop=center',
-    'Sweden': 'https://images.unsplash.com/photo-1509356843151-3e7d96241e11?w=800&h=400&fit=crop&crop=center',
-    'United Kingdom': 'https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=800&h=400&fit=crop&crop=center',
-    'Portugal': 'https://images.unsplash.com/photo-1555881400-74d7acaacd8b?w=800&h=400&fit=crop&crop=center',
-    'Czech Republic': 'https://images.unsplash.com/photo-1541849546-216549ae216d?w=800&h=400&fit=crop&crop=center',
-    'Poland': 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=400&fit=crop&crop=center',
-    'Croatia': 'https://images.unsplash.com/photo-1555881400-74d7acaacd8b?w=800&h=400&fit=crop&crop=center',
-    'Slovenia': 'https://images.unsplash.com/photo-1578439297738-9ed1b170b5ce?w=800&h=400&fit=crop&crop=center',
-    'Greece': 'https://images.unsplash.com/photo-1533105079780-92b9be482077?w=800&h=400&fit=crop&crop=center'
+    'Switzerland': 'https://images.unsplash.com/photo-1527095655060-4026c4af2b25',
+    'Austria': 'https://images.unsplash.com/photo-1551262235-3c533c64e7ab',
+    'Italy': 'https://images.unsplash.com/photo-1515542622106-78bda8ba0e5b',
+    'France': 'https://images.unsplash.com/photo-1540270776932-e72e7c2d11cd',
+    'Spain': 'https://images.unsplash.com/photo-1539037116277-4db20889f2d4',
+    'Germany': 'https://images.unsplash.com/photo-1467269204594-9661b134dd2b',
+    'Netherlands': 'https://images.unsplash.com/photo-1534351450181-ea58bf205b9e',
+    'Belgium': 'https://images.unsplash.com/photo-1577717903315-1691ae25ab3f',
+    'Denmark': 'https://images.unsplash.com/photo-1568649084754-65fc5c6a8ecb',
+    'Norway': 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4',
+    'Sweden': 'https://images.unsplash.com/photo-1509356843151-3e7d96241e11',
+    'United Kingdom': 'https://images.unsplash.com/photo-1513635269975-59663e0ac1ad',
+    'Portugal': 'https://images.unsplash.com/photo-1555881400-74d7acaacd8b',
+    'Czech Republic': 'https://images.unsplash.com/photo-1541849546-216549ae216d',
+    'Poland': 'https://images.unsplash.com/photo-1578662996442-48f60103fc96',
+    'Croatia': 'https://images.unsplash.com/photo-1555881400-74d7acaacd8b',
+    'Slovenia': 'https://images.unsplash.com/photo-1578439297738-9ed1b170b5ce',
+    'Greece': 'https://images.unsplash.com/photo-1533105079780-92b9be482077'
   };
 
   /**

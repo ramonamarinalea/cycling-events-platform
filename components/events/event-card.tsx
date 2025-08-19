@@ -31,11 +31,11 @@ export function EventCard({ event }: EventCardProps) {
   // Get fallback image based on event type and country
   const getFallbackImage = () => {
     const typeImages = {
-      TRAINING_CAMP: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&h=400&fit=crop',
-      CYCLING_HOLIDAY: 'https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=800&h=400&fit=crop',
-      WEEKEND_GETAWAY: 'https://images.unsplash.com/photo-1544191696-15693c62e1b4?w=800&h=400&fit=crop',
-      TOUR: 'https://images.unsplash.com/photo-1517654443271-14c4e7b6a20b?w=800&h=400&fit=crop',
-      EXPEDITION: 'https://images.unsplash.com/photo-1544266503-7ad532c8e936?w=800&h=400&fit=crop'
+      TRAINING_CAMP: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64',
+      CYCLING_HOLIDAY: 'https://images.unsplash.com/photo-1558618047-3c8c76ca7d13',
+      WEEKEND_GETAWAY: 'https://images.unsplash.com/photo-1544191696-15693c62e1b4',
+      TOUR: 'https://images.unsplash.com/photo-1517654443271-14c4e7b6a20b',
+      EXPEDITION: 'https://images.unsplash.com/photo-1544266503-7ad532c8e936'
     }
     return typeImages[event.type] || typeImages.CYCLING_HOLIDAY
   }
