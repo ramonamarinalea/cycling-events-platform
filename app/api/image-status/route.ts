@@ -31,15 +31,15 @@ export async function GET() {
       take: 10
     });
 
-    // Check image URL patterns
-    const imageStats = await prisma.event.groupBy({
-      by: ['coverImage'],
+    // Get sample of different image URLs
+    const sampleImageUrls = await prisma.event.findMany({
+      select: {
+        coverImage: true
+      },
       where: {
         coverImage: { not: null }
       },
-      _count: {
-        coverImage: true
-      },
+      distinct: ['coverImage'],
       take: 10
     });
 
@@ -59,9 +59,8 @@ export async function GET() {
         hasImage: !!event.coverImage,
         imageUrl: event.coverImage?.substring(0, 80) + (event.coverImage?.length > 80 ? '...' : '')
       })),
-      imagePatterns: imageStats.map(stat => ({
-        imageUrl: stat.coverImage?.substring(0, 80) + (stat.coverImage?.length > 80 ? '...' : ''),
-        count: stat._count.coverImage
+      imagePatterns: sampleImageUrls.map(item => ({
+        imageUrl: item.coverImage?.substring(0, 80) + (item.coverImage && item.coverImage.length > 80 ? '...' : '')
       }))
     });
 
