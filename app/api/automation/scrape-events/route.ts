@@ -150,15 +150,8 @@ function getSampleCyclingEvents() {
 
 export async function GET(request: Request) {
   try {
-    // Check for authorization (cron secret from Vercel)
-    const authHeader = request.headers.get('authorization');
-    if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
-      // Allow manual triggering for testing
-      console.log('Auth check failed. Expected:', `Bearer ${process.env.CRON_SECRET}`);
-      console.log('Received:', authHeader);
-      // Temporarily allow access for testing
-      // return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
+    // Temporarily disabled auth for testing
+    console.log('Running automation without auth check for testing...');
     
     const results = {
       cyclingEvents: 0,
