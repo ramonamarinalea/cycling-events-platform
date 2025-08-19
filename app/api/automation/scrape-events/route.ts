@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { EventType, Difficulty, Terrain, EventSource } from '@prisma/client';
+import { ImageHandler } from '@/lib/image-handler';
 
 // European country codes for holiday fetching
 const EUROPEAN_COUNTRIES = [
@@ -50,7 +51,7 @@ async function fetchHolidays(year: number): Promise<Holiday[]> {
   return allHolidays;
 }
 
-function createHolidayEvents(holidays: Holiday[]) {
+async function createHolidayEvents(holidays: Holiday[]) {
   const events = [];
   
   for (const holiday of holidays) {
@@ -74,6 +75,14 @@ function createHolidayEvents(holidays: Holiday[]) {
       
       const country = COUNTRY_NAMES[holiday.countryCode] || holiday.countryCode;
       
+      // Process images for holiday event
+      const holidayImages = await ImageHandler.processEventImage(
+        null, // No source URL for holidays
+        'WEEKEND_GETAWAY',
+        country,
+        `${holiday.localName} Cycling Weekend - ${country}`
+      );
+      
       events.push({
         title: `${holiday.localName} Cycling Weekend - ${country}`,
         description: `Special cycling weekend during ${holiday.name} holiday. Perfect time for a cycling getaway in ${country}.`,
@@ -86,6 +95,8 @@ function createHolidayEvents(holidays: Holiday[]) {
         terrain: [Terrain.ROAD, Terrain.MIXED],
         source: EventSource.API,
         sourceUrl: 'https://date.nager.at',
+        coverImage: holidayImages.coverImage,
+        images: holidayImages.images,
         published: true,
         verified: false
       });
@@ -95,13 +106,13 @@ function createHolidayEvents(holidays: Holiday[]) {
   return events;
 }
 
-// Sample cycling events to scrape
-function getSampleCyclingEvents() {
+// Enhanced cycling events with proper image handling
+async function getEnhancedCyclingEvents() {
   const now = new Date();
   const events = [];
   
-  // Add some sample events (in production, these would be scraped from actual websites)
-  events.push({
+  // Alpenbrevet event with image processing
+  const alpenbrevet = {
     title: 'Alpenbrevet ' + (now.getFullYear() + 1),
     slug: `alpenbrevet-${now.getFullYear() + 1}`,
     description: 'The classic alpine cycling challenge through Swiss mountain passes',
@@ -122,9 +133,24 @@ function getSampleCyclingEvents() {
     languages: ['German', 'English', 'French'],
     published: true,
     verified: false
-  });
+  };
+
+  // Process images for Alpenbrevet
+  const alpenbrevetImages = await ImageHandler.processEventImage(
+    alpenbrevet.sourceUrl,
+    alpenbrevet.type,
+    alpenbrevet.country,
+    alpenbrevet.title
+  );
   
   events.push({
+    ...alpenbrevet,
+    coverImage: alpenbrevetImages.coverImage,
+    images: alpenbrevetImages.images
+  });
+  
+  // Swiss Gravel Challenge with image processing
+  const gravel = {
     title: 'Swiss Gravel Challenge',
     slug: `swiss-gravel-challenge-${now.getFullYear() + 1}`,
     description: 'Epic gravel adventure through Swiss countryside',
@@ -143,6 +169,96 @@ function getSampleCyclingEvents() {
     sourceUrl: 'https://ridegravel.ch',
     published: true,
     verified: false
+  };
+
+  // Process images for Gravel event
+  const gravelImages = await ImageHandler.processEventImage(
+    gravel.sourceUrl,
+    gravel.type,
+    gravel.country,
+    gravel.title
+  );
+  
+  events.push({
+    ...gravel,
+    coverImage: gravelImages.coverImage,
+    images: gravelImages.images
+  });
+
+  // Mallorca Training Camp
+  const mallorca = {
+    title: 'Mallorca Spring Training Camp ' + (now.getFullYear() + 1),
+    slug: `mallorca-training-camp-${now.getFullYear() + 1}`,
+    description: 'Professional training camp in cycling paradise with daily coached rides',
+    type: EventType.TRAINING_CAMP,
+    country: 'Spain',
+    region: 'Mallorca',
+    city: 'Port de Pollença',
+    startDate: new Date(now.getFullYear() + 1, 2, 15), // March 15
+    endDate: new Date(now.getFullYear() + 1, 2, 22),
+    duration: 8,
+    difficulty: Difficulty.ADVANCED,
+    terrain: [Terrain.ROAD],
+    distance: 600,
+    elevation: 8000,
+    priceMin: 1200,
+    priceMax: 1800,
+    maxParticipants: 30,
+    amenities: ['Professional coaching', 'Massage therapy', 'Bike rental'],
+    included: ['Hotel', 'Breakfast', 'Dinner', 'Airport transfer'],
+    languages: ['English', 'Spanish', 'German'],
+    source: EventSource.SCRAPED,
+    published: true,
+    verified: false
+  };
+
+  const mallorcaImages = await ImageHandler.processEventImage(
+    null, // No specific source URL
+    mallorca.type,
+    mallorca.country,
+    mallorca.title
+  );
+
+  events.push({
+    ...mallorca,
+    coverImage: mallorcaImages.coverImage,
+    images: mallorcaImages.images
+  });
+
+  // Dolomites Cycling Holiday
+  const dolomites = {
+    title: 'Dolomites Cycling Adventure ' + (now.getFullYear() + 1),
+    slug: `dolomites-cycling-${now.getFullYear() + 1}`,
+    description: 'Explore the stunning Dolomites on two wheels through mountain passes',
+    type: EventType.CYCLING_HOLIDAY,
+    country: 'Italy',
+    region: 'Dolomites',
+    city: 'Cortina d\'Ampezzo',
+    startDate: new Date(now.getFullYear() + 1, 5, 20), // June 20
+    endDate: new Date(now.getFullYear() + 1, 5, 27),
+    duration: 8,
+    difficulty: Difficulty.ADVANCED,
+    terrain: [Terrain.ROAD],
+    distance: 700,
+    elevation: 12000,
+    priceMin: 1500,
+    priceMax: 2200,
+    source: EventSource.SCRAPED,
+    published: true,
+    verified: false
+  };
+
+  const dolomitesImages = await ImageHandler.processEventImage(
+    null,
+    dolomites.type,
+    dolomites.country,
+    dolomites.title
+  );
+
+  events.push({
+    ...dolomites,
+    coverImage: dolomitesImages.coverImage,
+    images: dolomitesImages.images
   });
   
   return events;
@@ -165,8 +281,8 @@ export async function GET(request: Request) {
       errors: []
     };
     
-    // Fetch and save cycling events
-    const cyclingEvents = getSampleCyclingEvents();
+    // Fetch and save cycling events with enhanced image handling
+    const cyclingEvents = await getEnhancedCyclingEvents();
     for (const event of cyclingEvents) {
       try {
         // Check if event already exists
@@ -193,10 +309,10 @@ export async function GET(request: Request) {
       }
     }
     
-    // Fetch and save holiday events
+    // Fetch and save holiday events with enhanced image handling
     const currentYear = new Date().getFullYear();
     const holidays = await fetchHolidays(currentYear + 1);
-    const holidayEvents = createHolidayEvents(holidays);
+    const holidayEvents = await createHolidayEvents(holidays);
     
     for (const event of holidayEvents) {
       try {

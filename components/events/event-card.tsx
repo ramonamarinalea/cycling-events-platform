@@ -4,12 +4,15 @@ import { MapPin, Calendar, Users, DollarSign, Mountain } from "lucide-react"
 import { EventWithRelations } from "@/types"
 import { formatDateRange, formatPrice } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
+import { useState } from "react"
 
 interface EventCardProps {
   event: EventWithRelations
 }
 
 export function EventCard({ event }: EventCardProps) {
+  const [imageError, setImageError] = useState(false)
+
   const difficultyColors = {
     BEGINNER: "bg-green-100 text-green-800",
     INTERMEDIATE: "bg-yellow-100 text-yellow-800",
@@ -25,27 +28,48 @@ export function EventCard({ event }: EventCardProps) {
     EXPEDITION: "Expedition",
   }
 
+  // Get fallback image based on event type and country
+  const getFallbackImage = () => {
+    const typeImages = {
+      TRAINING_CAMP: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&h=400&fit=crop',
+      CYCLING_HOLIDAY: 'https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=800&h=400&fit=crop',
+      WEEKEND_GETAWAY: 'https://images.unsplash.com/photo-1544191696-15693c62e1b4?w=800&h=400&fit=crop',
+      TOUR: 'https://images.unsplash.com/photo-1517654443271-14c4e7b6a20b?w=800&h=400&fit=crop',
+      EXPEDITION: 'https://images.unsplash.com/photo-1544266503-7ad532c8e936?w=800&h=400&fit=crop'
+    }
+    return typeImages[event.type] || typeImages.CYCLING_HOLIDAY
+  }
+
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
       {/* Image */}
       <div className="relative h-48 bg-gray-200">
-        {event.coverImage ? (
+        {event.coverImage && !imageError ? (
           <Image
             src={event.coverImage}
             alt={event.title}
             fill
             className="object-cover"
+            onError={() => setImageError(true)}
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            priority={false}
           />
         ) : (
-          <div className="w-full h-full flex items-center justify-center text-gray-400">
-            <Mountain size={48} />
-          </div>
+          <Image
+            src={getFallbackImage()}
+            alt={event.title}
+            fill
+            className="object-cover"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          />
         )}
         {event.featured && (
           <span className="absolute top-2 right-2 bg-yellow-500 text-white px-2 py-1 rounded text-xs font-semibold">
             Featured
           </span>
         )}
+        {/* Image overlay for better text readability */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
       </div>
 
       {/* Content */}
