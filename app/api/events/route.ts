@@ -181,11 +181,10 @@ export async function GET(req: NextRequest) {
     // DEBUG: Log the where clause
     console.log("🚨 WHERE CLAUSE:", JSON.stringify(where, null, 2))
     
-    // Get events with relations
-    const [events, total] = await Promise.all([
-      prisma.event.findMany({
-        where,
-        include: {
+    // NUCLEAR APPROACH: Get ALL events then filter in code
+    const allEvents = await prisma.event.findMany({
+      where: { published: true },
+      include: {
           user: {
             select: {
               id: true,
@@ -210,12 +209,29 @@ export async function GET(req: NextRequest) {
         orderBy: [
           { featured: "desc" },
           { startDate: "asc" },
-        ],
-        skip,
-        take: limit,
-      }),
-      prisma.event.count({ where }),
-    ])
+        ]
+      })
+      
+      // FILTER IN CODE: Remove events without URLs
+      const eventsWithUrls = allEvents.filter(event => 
+        event.bookingUrl || event.websiteUrl
+      )
+      
+      console.log(`🚨 FILTERED: ${allEvents.length} total -> ${eventsWithUrls.length} with URLs`)
+      
+      // Apply date filter
+      const dateFilteredEvents = eventsWithUrls.filter(event => {
+        if (showPast) {
+          return new Date(event.startDate) < new Date()
+        } else {
+          return new Date(event.startDate) >= new Date()
+        }
+      })
+      
+      // Apply pagination
+      const skip = (page - 1) * limit
+      const events = dateFilteredEvents.slice(skip, skip + limit)
+      const total = dateFilteredEvents.length
 
     // DEBUG: Log results  
     console.log(`🚨 FOUND ${events.length} events, expected fewer due to URL filter`)
