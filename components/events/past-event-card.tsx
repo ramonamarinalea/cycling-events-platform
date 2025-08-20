@@ -1,6 +1,7 @@
-import { MapPin, Calendar } from "lucide-react"
+import { MapPin, Calendar, ExternalLink } from "lucide-react"
 import { EventWithRelations } from "@/types"
 import { formatDateRange, formatPrice } from "@/lib/utils"
+import { Button } from "@/components/ui/button"
 
 interface PastEventCardProps {
   event: EventWithRelations
@@ -55,6 +56,28 @@ export function PastEventCard({ event }: PastEventCardProps) {
             </span>
           )}
         </div>
+
+        {/* Visit Button */}
+        {(event.bookingUrl || event.websiteUrl) && (
+          <div className="mt-2">
+            <Button 
+              asChild 
+              variant="outline" 
+              size="sm" 
+              className="w-full text-xs h-7"
+            >
+              <a 
+                href={event.bookingUrl || event.websiteUrl} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-1"
+              >
+                <ExternalLink size={10} />
+                Visit Event
+              </a>
+            </Button>
+          </div>
+        )}
       </div>
     </div>
   )

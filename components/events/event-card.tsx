@@ -172,10 +172,14 @@ export function EventCard({ event }: EventCardProps) {
         )}
 
         {/* Action Button */}
-        {event.websiteUrl && (
+        {(event.bookingUrl || event.websiteUrl) && (
           <Button asChild className="w-full">
-            <a href={event.websiteUrl} target="_blank" rel="noopener noreferrer">
-              Visit Event
+            <a 
+              href={event.bookingUrl || event.websiteUrl} 
+              target="_blank" 
+              rel="noopener noreferrer"
+            >
+              {event.bookingUrl ? 'Book Event' : 'Visit Event'}
             </a>
           </Button>
         )}
