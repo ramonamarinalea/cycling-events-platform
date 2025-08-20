@@ -69,26 +69,25 @@ export async function GET(req: NextRequest) {
     // Check if showing past events
     const showPast = searchParams.get("past") === "true"
     
-    // Build filters
+    // Build filters - Only show events with working links
     const where: any = {
       published: true, // Only show published events
-      AND: [
-        {
-          OR: [
-            { bookingUrl: { not: null } },
-            { websiteUrl: { not: null } }
-          ]
-        }
+      OR: [
+        { bookingUrl: { not: null } },
+        { websiteUrl: { not: null } }
       ]
     }
     
+    // Store additional conditions
+    const additionalConditions: any[] = []
+    
     // Filter by past or future events
     if (showPast) {
-      where.AND.push({
+      additionalConditions.push({
         startDate: { lt: new Date() } // Only show past events
       })
     } else {
-      where.AND.push({
+      additionalConditions.push({
         startDate: { gte: new Date() } // Only show future events
       })
     }
@@ -96,19 +95,19 @@ export async function GET(req: NextRequest) {
     // Type filter
     const type = searchParams.get("type")
     if (type) {
-      where.AND.push({ type: type })
+      additionalConditions.push({ type: type })
     }
 
     // Difficulty filter
     const difficulty = searchParams.get("difficulty")
     if (difficulty) {
-      where.AND.push({ difficulty: difficulty })
+      additionalConditions.push({ difficulty: difficulty })
     }
 
     // Country filter
     const country = searchParams.get("country")
     if (country) {
-      where.AND.push({
+      additionalConditions.push({
         country: {
           contains: country,
           mode: "insensitive",
@@ -119,7 +118,7 @@ export async function GET(req: NextRequest) {
     // Search filter
     const search = searchParams.get("search")
     if (search) {
-      where.AND.push({
+      additionalConditions.push({
         OR: [
           { title: { contains: search, mode: "insensitive" } },
           { description: { contains: search, mode: "insensitive" } },
@@ -132,14 +131,14 @@ export async function GET(req: NextRequest) {
     // Date range filter
     const startDate = searchParams.get("startDate")
     if (startDate) {
-      where.AND.push({
+      additionalConditions.push({
         startDate: { gte: new Date(startDate) }
       })
     }
 
     const endDate = searchParams.get("endDate")
     if (endDate) {
-      where.AND.push({
+      additionalConditions.push({
         endDate: { lte: new Date(endDate) }
       })
     }
@@ -147,16 +146,21 @@ export async function GET(req: NextRequest) {
     // Price range filter
     const minPrice = searchParams.get("minPrice")
     if (minPrice) {
-      where.AND.push({
+      additionalConditions.push({
         priceMin: { gte: parseFloat(minPrice) }
       })
     }
 
     const maxPrice = searchParams.get("maxPrice")
     if (maxPrice) {
-      where.AND.push({
+      additionalConditions.push({
         priceMax: { lte: parseFloat(maxPrice) }
       })
+    }
+
+    // Combine URL filter with additional conditions
+    if (additionalConditions.length > 0) {
+      where.AND = additionalConditions
     }
 
     // Pagination
