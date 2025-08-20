@@ -72,6 +72,10 @@ export async function GET(req: NextRequest) {
     // Build filters
     const where: any = {
       published: true, // Only show published events
+      OR: [
+        { bookingUrl: { not: null } },
+        { websiteUrl: { not: null } }
+      ]
     }
     
     // Filter by past or future events
