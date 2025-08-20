@@ -63,6 +63,12 @@ export async function POST(req: NextRequest) {
 }
 
 export async function GET(req: NextRequest) {
+  // DEPLOYMENT TEST - RETURN ERROR TO VERIFY DEPLOYMENT IS WORKING
+  return NextResponse.json({ 
+    error: "🚨 DEPLOYMENT TEST - THIS API IS BEING UPDATED - 2025-08-20", 
+    timestamp: new Date().toISOString() 
+  }, { status: 503 })
+
   try {
     // IMMEDIATE RETURN - FORCE ONLY 4 EVENTS
     return NextResponse.json({
