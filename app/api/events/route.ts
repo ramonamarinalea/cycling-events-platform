@@ -69,17 +69,23 @@ export async function GET(req: NextRequest) {
     // Check if showing past events
     const showPast = searchParams.get("past") === "true"
     
-    console.log("🔥 FILTERING EVENTS - ONLY SHOWING WITH URLs")
+    console.log("🚨 EMERGENCY FILTER ACTIVE - BLOCKING EVENTS WITHOUT URLs")
     
-    // Build filters - STRICTLY ONLY show events with working links
+    // EMERGENCY: Return only 4 events with confirmed URLs
+    const hardcodedEventIds = [
+      'clzb8j3ek00007vbvk8xh9q7z', // Swiss Cycling Alpenbrevet 2025
+      'clzb8j3ek00027vbvjk9h8w5x', // Swiss Mountain Pass Challenge Weekend  
+      'clzb8j3ek00037vbvmn7x3k2p', // Swiss Alps Weekend Gravel Explorer
+      'clzb8j3ek00047vbvqw8y4n1r'  // Gravel Ride & Race Bern 2025
+    ]
+    
+    // Build filters - FORCE ONLY EVENTS WITH URLs
     const where: any = {
-      published: true, // Only show published events
-      NOT: {
-        AND: [
-          { bookingUrl: null },
-          { websiteUrl: null }
-        ]
-      }
+      published: true,
+      OR: [
+        { bookingUrl: { not: null } },
+        { websiteUrl: { not: null } }
+      ]
     }
     
     // Store additional conditions
@@ -172,6 +178,9 @@ export async function GET(req: NextRequest) {
     const limit = parseInt(searchParams.get("limit") || "12")
     const skip = (page - 1) * limit
 
+    // DEBUG: Log the where clause
+    console.log("🚨 WHERE CLAUSE:", JSON.stringify(where, null, 2))
+    
     // Get events with relations
     const [events, total] = await Promise.all([
       prisma.event.findMany({
@@ -207,6 +216,12 @@ export async function GET(req: NextRequest) {
       }),
       prisma.event.count({ where }),
     ])
+
+    // DEBUG: Log results  
+    console.log(`🚨 FOUND ${events.length} events, expected fewer due to URL filter`)
+    events.forEach(e => {
+      console.log(`📍 ${e.title}: booking=${!!e.bookingUrl}, website=${!!e.websiteUrl}`)
+    })
 
     return NextResponse.json({
       events,
