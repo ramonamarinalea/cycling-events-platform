@@ -192,8 +192,8 @@ export function EventCard({ event }: EventCardProps) {
           </div>
         )}
 
-        {/* Action Button - Always visible */}
-        <Button asChild className="w-full">
+        {/* Action Button - Guaranteed to show */}
+        <Button asChild className="w-full bg-blue-600 hover:bg-blue-700">
           <a 
             href={event.bookingUrl || event.websiteUrl || getDefaultEventUrl(event)} 
             target="_blank" 
