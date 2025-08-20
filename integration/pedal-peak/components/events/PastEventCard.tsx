@@ -1,11 +1,33 @@
 // components/events/PastEventCard.tsx
 import { CyclingEvent } from "@/lib/events-api"
+import { ExternalLink } from "lucide-react"
 
 interface PastEventCardProps {
   event: CyclingEvent
 }
 
 export function PastEventCard({ event }: PastEventCardProps) {
+  // Get default event URL when no booking/website URL is provided
+  const getDefaultEventUrl = (event: CyclingEvent) => {
+    if (event.country.toLowerCase().includes('spain')) {
+      return 'https://www.spanish-cycling.com/events'
+    }
+    if (event.country.toLowerCase().includes('slovenia')) {
+      return 'https://www.slovenia.info/en/things-to-do/active-holidays/cycling'
+    }
+    if (event.country.toLowerCase().includes('germany')) {
+      return 'https://www.germany.travel/en/sports-and-recreation/cycling.html'
+    }
+    if (event.country.toLowerCase().includes('switzerland')) {
+      return 'https://www.myswitzerland.com/en/experiences/sport/cycling/'
+    }
+    if (event.country.toLowerCase().includes('uk') || event.country.toLowerCase().includes('united kingdom')) {
+      return 'https://www.britishcycling.org.uk/events'
+    }
+    // Default fallback
+    return 'https://www.uci.org/events'
+  }
+
   const formatDateBadge = (startDate: string, endDate: string) => {
     const start = new Date(startDate)
     const end = new Date(endDate)
@@ -55,6 +77,19 @@ export function PastEventCard({ event }: PastEventCardProps) {
         <div className="text-xs text-gray-400 capitalize">
           {event.difficulty.toLowerCase()} • {event.terrain.join(', ').toLowerCase()}
         </div>
+      </div>
+      
+      {/* Visit Button */}
+      <div className="ml-4">
+        <a
+          href={event.bookingUrl || event.websiteUrl || getDefaultEventUrl(event)}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-1 px-3 py-1 text-xs text-gray-600 hover:text-black border border-gray-300 hover:border-gray-400 transition-colors"
+        >
+          <ExternalLink size={10} />
+          Visit
+        </a>
       </div>
     </div>
   )

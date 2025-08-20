@@ -7,6 +7,27 @@ interface PedalPeakEventCardProps {
 }
 
 export function PedalPeakEventCard({ event }: PedalPeakEventCardProps) {
+  // Get default event URL when no booking/website URL is provided
+  const getDefaultEventUrl = (event: EventWithRelations) => {
+    if (event.country.toLowerCase().includes('spain')) {
+      return 'https://www.spanish-cycling.com/events'
+    }
+    if (event.country.toLowerCase().includes('slovenia')) {
+      return 'https://www.slovenia.info/en/things-to-do/active-holidays/cycling'
+    }
+    if (event.country.toLowerCase().includes('germany')) {
+      return 'https://www.germany.travel/en/sports-and-recreation/cycling.html'
+    }
+    if (event.country.toLowerCase().includes('switzerland')) {
+      return 'https://www.myswitzerland.com/en/experiences/sport/cycling/'
+    }
+    if (event.country.toLowerCase().includes('uk') || event.country.toLowerCase().includes('united kingdom')) {
+      return 'https://www.britishcycling.org.uk/events'
+    }
+    // Default fallback
+    return 'https://www.uci.org/events'
+  }
+
   const formatDateBadge = (startDate: Date, endDate: Date) => {
     const start = new Date(startDate)
     const end = new Date(endDate)
@@ -124,16 +145,14 @@ export function PedalPeakEventCard({ event }: PedalPeakEventCardProps) {
               )}
             </div>
             
-            {event.websiteUrl && (
-              <a
-                href={event.websiteUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center px-6 py-3 bg-black text-white font-medium text-sm hover:bg-gray-800 transition-colors duration-200"
-              >
-                Book Your Spot
-              </a>
-            )}
+            <a
+              href={event.bookingUrl || event.websiteUrl || getDefaultEventUrl(event)}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center px-6 py-3 bg-black text-white font-medium text-sm hover:bg-gray-800 transition-colors duration-200"
+            >
+              {event.bookingUrl ? 'Book Your Spot' : 'Visit Event'}
+            </a>
           </div>
           
           {/* Additional Info */}
