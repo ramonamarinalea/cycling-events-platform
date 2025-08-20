@@ -72,83 +72,91 @@ export async function GET(req: NextRequest) {
     // Build filters
     const where: any = {
       published: true, // Only show published events
-      OR: [
-        { bookingUrl: { not: null } },
-        { websiteUrl: { not: null } }
+      AND: [
+        {
+          OR: [
+            { bookingUrl: { not: null } },
+            { websiteUrl: { not: null } }
+          ]
+        }
       ]
     }
     
     // Filter by past or future events
     if (showPast) {
-      where.startDate = {
-        lt: new Date(), // Only show past events
-      }
+      where.AND.push({
+        startDate: { lt: new Date() } // Only show past events
+      })
     } else {
-      where.startDate = {
-        gte: new Date(), // Only show future events
-      }
+      where.AND.push({
+        startDate: { gte: new Date() } // Only show future events
+      })
     }
 
     // Type filter
     const type = searchParams.get("type")
     if (type) {
-      where.type = type
+      where.AND.push({ type: type })
     }
 
     // Difficulty filter
     const difficulty = searchParams.get("difficulty")
     if (difficulty) {
-      where.difficulty = difficulty
+      where.AND.push({ difficulty: difficulty })
     }
 
     // Country filter
     const country = searchParams.get("country")
     if (country) {
-      where.country = {
-        contains: country,
-        mode: "insensitive",
-      }
+      where.AND.push({
+        country: {
+          contains: country,
+          mode: "insensitive",
+        }
+      })
     }
 
     // Search filter
     const search = searchParams.get("search")
     if (search) {
-      where.OR = [
-        { title: { contains: search, mode: "insensitive" } },
-        { description: { contains: search, mode: "insensitive" } },
-        { city: { contains: search, mode: "insensitive" } },
-        { region: { contains: search, mode: "insensitive" } },
-      ]
+      where.AND.push({
+        OR: [
+          { title: { contains: search, mode: "insensitive" } },
+          { description: { contains: search, mode: "insensitive" } },
+          { city: { contains: search, mode: "insensitive" } },
+          { region: { contains: search, mode: "insensitive" } },
+        ]
+      })
     }
 
     // Date range filter
     const startDate = searchParams.get("startDate")
     if (startDate) {
-      where.startDate = {
-        gte: new Date(startDate),
-      }
+      where.AND.push({
+        startDate: { gte: new Date(startDate) }
+      })
     }
 
     const endDate = searchParams.get("endDate")
     if (endDate) {
-      where.endDate = {
-        lte: new Date(endDate),
-      }
+      where.AND.push({
+        endDate: { lte: new Date(endDate) }
+      })
     }
 
     // Price range filter
     const minPrice = searchParams.get("minPrice")
     if (minPrice) {
-      where.priceMin = {
-        gte: parseFloat(minPrice),
-      }
+      where.AND.push({
+        priceMin: { gte: parseFloat(minPrice) }
+      })
     }
 
     const maxPrice = searchParams.get("maxPrice")
     if (maxPrice) {
-      where.priceMax = {
-        lte: parseFloat(maxPrice),
-      }
+      where.AND.push({
+        priceMax: { lte: parseFloat(maxPrice) }
+      })
     }
 
     // Pagination
