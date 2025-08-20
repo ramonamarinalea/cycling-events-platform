@@ -16,6 +16,27 @@ export function PastEventCard({ event }: PastEventCardProps) {
     EXPEDITION: "Expedition",
   }
 
+  // Get default event URL when no booking/website URL is provided
+  const getDefaultEventUrl = (event: EventWithRelations) => {
+    if (event.country.toLowerCase().includes('spain')) {
+      return 'https://www.spanish-cycling.com/events'
+    }
+    if (event.country.toLowerCase().includes('slovenia')) {
+      return 'https://www.slovenia.info/en/things-to-do/active-holidays/cycling'
+    }
+    if (event.country.toLowerCase().includes('germany')) {
+      return 'https://www.germany.travel/en/sports-and-recreation/cycling.html'
+    }
+    if (event.country.toLowerCase().includes('switzerland')) {
+      return 'https://www.myswitzerland.com/en/experiences/sport/cycling/'
+    }
+    if (event.country.toLowerCase().includes('uk') || event.country.toLowerCase().includes('united kingdom')) {
+      return 'https://www.britishcycling.org.uk/events'
+    }
+    // Default fallback
+    return 'https://www.uci.org/events'
+  }
+
   return (
     <div className="bg-gray-50 rounded-lg border border-gray-200 p-3 opacity-60">
       {/* Compact Content */}
@@ -58,26 +79,24 @@ export function PastEventCard({ event }: PastEventCardProps) {
         </div>
 
         {/* Visit Button */}
-        {(event.bookingUrl || event.websiteUrl) && (
-          <div className="mt-2">
-            <Button 
-              asChild 
-              variant="outline" 
-              size="sm" 
-              className="w-full text-xs h-7"
+        <div className="mt-2">
+          <Button 
+            asChild 
+            variant="outline" 
+            size="sm" 
+            className="w-full text-xs h-7"
+          >
+            <a 
+              href={event.bookingUrl || event.websiteUrl || getDefaultEventUrl(event)} 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="flex items-center justify-center gap-1"
             >
-              <a 
-                href={event.bookingUrl || event.websiteUrl} 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="flex items-center justify-center gap-1"
-              >
-                <ExternalLink size={10} />
-                Visit Event
-              </a>
-            </Button>
-          </div>
-        )}
+              <ExternalLink size={10} />
+              Visit Event
+            </a>
+          </Button>
+        </div>
       </div>
     </div>
   )

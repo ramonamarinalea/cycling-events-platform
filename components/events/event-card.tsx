@@ -40,6 +40,27 @@ export function EventCard({ event }: EventCardProps) {
     return typeImages[event.type] || typeImages.CYCLING_HOLIDAY
   }
 
+  // Get default event URL when no booking/website URL is provided
+  const getDefaultEventUrl = (event: EventWithRelations) => {
+    if (event.country.toLowerCase().includes('spain')) {
+      return 'https://www.spanish-cycling.com/events'
+    }
+    if (event.country.toLowerCase().includes('slovenia')) {
+      return 'https://www.slovenia.info/en/things-to-do/active-holidays/cycling'
+    }
+    if (event.country.toLowerCase().includes('germany')) {
+      return 'https://www.germany.travel/en/sports-and-recreation/cycling.html'
+    }
+    if (event.country.toLowerCase().includes('switzerland')) {
+      return 'https://www.myswitzerland.com/en/experiences/sport/cycling/'
+    }
+    if (event.country.toLowerCase().includes('uk') || event.country.toLowerCase().includes('united kingdom')) {
+      return 'https://www.britishcycling.org.uk/events'
+    }
+    // Default fallback
+    return 'https://www.uci.org/events'
+  }
+
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
       {/* Image */}
@@ -172,17 +193,15 @@ export function EventCard({ event }: EventCardProps) {
         )}
 
         {/* Action Button */}
-        {(event.bookingUrl || event.websiteUrl) && (
-          <Button asChild className="w-full">
-            <a 
-              href={event.bookingUrl || event.websiteUrl} 
-              target="_blank" 
-              rel="noopener noreferrer"
-            >
-              {event.bookingUrl ? 'Book Event' : 'Visit Event'}
-            </a>
-          </Button>
-        )}
+        <Button asChild className="w-full">
+          <a 
+            href={event.bookingUrl || event.websiteUrl || getDefaultEventUrl(event)} 
+            target="_blank" 
+            rel="noopener noreferrer"
+          >
+            {event.bookingUrl ? 'Book Event' : 'Visit Event'}
+          </a>
+        </Button>
       </div>
     </div>
   )
