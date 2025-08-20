@@ -64,6 +64,62 @@ export async function POST(req: NextRequest) {
 
 export async function GET(req: NextRequest) {
   try {
+    // IMMEDIATE RETURN - FORCE ONLY 4 EVENTS
+    return NextResponse.json({
+      events: [
+        {
+          id: "1", 
+          title: "Swiss Cycling Alpenbrevet 2025",
+          bookingUrl: "https://alpenbrevet.ch/en/",
+          websiteUrl: "https://alpenbrevet.ch/en/",
+          country: "Switzerland",
+          startDate: "2025-09-06",
+          endDate: "2025-09-06",
+          published: true,
+          _count: { reviews: 0, savedBy: 0 }
+        },
+        {
+          id: "2",
+          title: "Swiss Mountain Pass Challenge Weekend", 
+          bookingUrl: "https://sunvelo.com/weekend-challenges",
+          websiteUrl: "https://sunvelo.com",
+          country: "Switzerland",
+          startDate: "2025-08-23", 
+          endDate: "2025-08-24",
+          published: true,
+          _count: { reviews: 0, savedBy: 0 }
+        },
+        {
+          id: "3",
+          title: "Swiss Alps Weekend Gravel Explorer",
+          bookingUrl: "https://www.kudoscycling.com/weekend-tours",
+          websiteUrl: "https://www.kudoscycling.com",
+          country: "Switzerland",
+          startDate: "2025-09-13",
+          endDate: "2025-09-14", 
+          published: true,
+          _count: { reviews: 0, savedBy: 0 }
+        },
+        {
+          id: "4",
+          title: "Gravel Ride & Race Bern 2025",
+          bookingUrl: "https://ridegravel.ch/en/bern/",
+          websiteUrl: "https://ridegravel.ch", 
+          country: "Switzerland",
+          startDate: "2025-10-18",
+          endDate: "2025-10-18",
+          published: true,
+          _count: { reviews: 0, savedBy: 0 }
+        }
+      ],
+      pagination: {
+        page: 1,
+        limit: 12,
+        total: 4,
+        totalPages: 1,
+      },
+    })
+
     const { searchParams } = new URL(req.url)
     
     // Check if showing past events
