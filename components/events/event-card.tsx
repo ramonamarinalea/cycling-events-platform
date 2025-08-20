@@ -192,7 +192,7 @@ export function EventCard({ event }: EventCardProps) {
           </div>
         )}
 
-        {/* Action Button */}
+        {/* Action Button - Always visible */}
         <Button asChild className="w-full">
           <a 
             href={event.bookingUrl || event.websiteUrl || getDefaultEventUrl(event)} 
