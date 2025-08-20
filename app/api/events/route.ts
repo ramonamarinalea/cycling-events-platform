@@ -69,13 +69,17 @@ export async function GET(req: NextRequest) {
     // Check if showing past events
     const showPast = searchParams.get("past") === "true"
     
-    // Build filters - Only show events with working links
+    console.log("🔥 FILTERING EVENTS - ONLY SHOWING WITH URLs")
+    
+    // Build filters - STRICTLY ONLY show events with working links
     const where: any = {
       published: true, // Only show published events
-      OR: [
-        { bookingUrl: { not: null } },
-        { websiteUrl: { not: null } }
-      ]
+      NOT: {
+        AND: [
+          { bookingUrl: null },
+          { websiteUrl: null }
+        ]
+      }
     }
     
     // Store additional conditions
